@@ -32,27 +32,27 @@ func TestSaveAndFindAll(t *testing.T) {
 	}
 }
 
-// func TestFindByAuthor(t *testing.T) {
-// 	repo := NewMemoryQuoteRepository()
+func TestFindByAuthor(t *testing.T) {
+	repo := NewMemoryQuoteRepository()
 
-// 	quotes := []models.Quote{
-// 		{Author: "Confucius", Quote: "One"},
-// 		{Author: "Aristotle", Quote: "Two"},
-// 		{Author: "Confucius", Quote: "Three"},
-// 	}
+	quotes := []models.Quote{
+		{Author: "Confucius", Quote: "One"},
+		{Author: "Aristotle", Quote: "Two"},
+		{Author: "Confucius", Quote: "Three"},
+	}
 
-// 	for _, q := range quotes {
-// 		_,_ = repo.Add(q)
-// 	}
+	for _, q := range quotes {
+		_, _ = repo.Add(q)
+	}
 
-// 	found, err := repo.GetByAuthor("Confucius")
-// 	if err != nil {
-// 		t.Fatalf("unexpected error: %v", err)
-// 	}
-// 	if len(found) != 2 {
-// 		t.Errorf("expected 2 quotes, got %d", len(found))
-// 	}
-// }
+	found, err := repo.GetByAuthor("Confucius")
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if len(found) != 2 {
+		t.Errorf("expected 2 quotes, got %d", len(found))
+	}
+}
 
 func TestFindRandom(t *testing.T) {
 	repo := NewMemoryQuoteRepository()
@@ -77,19 +77,19 @@ func TestFindRandom(t *testing.T) {
 	}
 }
 
-// func TestDelete(t *testing.T) {
-// 	repo := NewMemoryQuoteRepository()
+func TestDelete(t *testing.T) {
+	repo := NewMemoryQuoteRepository()
 
-// 	q := models.Quote{Author: "A", Quote: "Q"}
-// 	_,_ = repo.Add(q)
+	q := models.Quote{Author: "A", Quote: "Q"}
+	_, _ = repo.Add(q)
 
-// 	err := repo.Delete(1)
-// 	if err != nil {
-// 		t.Fatalf("unexpected error: %v", err)
-// 	}
+	err := repo.Delete(1)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
 
-// 	err = repo.Delete(1)
-// 	if err == nil {
-// 		t.Error("expected error when deleting non-existent ID")
-// 	}
-// }
+	err = repo.Delete(1)
+	if err == nil {
+		t.Error("expected error when deleting non-existent ID")
+	}
+}
