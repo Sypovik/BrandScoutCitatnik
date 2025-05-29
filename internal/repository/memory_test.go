@@ -6,12 +6,11 @@ import (
 	"testing"
 )
 
-// setup создает и инициализирует новое in-memory хранилище для каждого теста
 func setup() QuoteRepository {
 	repo := NewQuoteRepositoryMemory()
-	repo.Add(models.Quote{Author: "Confucius", Quote: "Life is simple."})
-	repo.Add(models.Quote{Author: "Aristotle", Quote: "Knowing yourself is wisdom."})
-	repo.Add(models.Quote{Author: "Confucius", Quote: "Everything has beauty."})
+	repo.Add(models.Quote{Author: "Конфуций", Quote: "Жизнь проста."})
+	repo.Add(models.Quote{Author: "Аристотель", Quote: "Познать себя - это мудрость."})
+	repo.Add(models.Quote{Author: "Конфуций", Quote: "Во всем есть красота."})
 	return repo
 }
 
@@ -20,19 +19,19 @@ func TestMemoryRepository(t *testing.T) {
 		t.Parallel()
 
 		repo := NewQuoteRepositoryMemory()
-		q := models.Quote{Author: "Test", Quote: "Hello"}
+		q := models.Quote{Author: "Тест", Quote: "Привет"}
 
 		added, err := repo.Add(q)
 		if err != nil {
-			t.Fatalf("unexpected error: %v", err)
+			t.Fatalf("неожиданная ошибка: %v", err)
 		}
 
 		all, _ := repo.GetAll()
 		if len(all) != 1 {
-			t.Errorf("expected 1 quote, got %d", len(all))
+			t.Errorf("ожидалась 1 цитата, получено %d", len(all))
 		}
 		if all[0] != added {
-			t.Errorf("expected %+v, got %+v", added, all[0])
+			t.Errorf("ожидалось %+v, получено %+v", added, all[0])
 		}
 	})
 
@@ -41,12 +40,12 @@ func TestMemoryRepository(t *testing.T) {
 
 		repo := setup()
 
-		confuciusQuotes, err := repo.GetByAuthor("Confucius")
+		confuciusQuotes, err := repo.GetByAuthor("Конфуций")
 		if err != nil {
-			t.Fatalf("error on GetByAuthor: %v", err)
+			t.Fatalf("ошибка при GetByAuthor: %v", err)
 		}
 		if len(confuciusQuotes) != 2 {
-			t.Errorf("expected 2 quotes, got %d", len(confuciusQuotes))
+			t.Errorf("ожидалось 2 цитаты, получено %d", len(confuciusQuotes))
 		}
 	})
 
@@ -57,10 +56,10 @@ func TestMemoryRepository(t *testing.T) {
 
 		quote, err := repo.GetRandom()
 		if err != nil {
-			t.Fatalf("unexpected error: %v", err)
+			t.Fatalf("неожиданная ошибка: %v", err)
 		}
 		if quote == nil {
-			t.Fatal("expected non-nil quote")
+			t.Fatal("ожидалась не nil цитата")
 		}
 	})
 
@@ -73,12 +72,12 @@ func TestMemoryRepository(t *testing.T) {
 
 		err := repo.Delete(idToDelete)
 		if err != nil {
-			t.Fatalf("failed to delete quote: %v", err)
+			t.Fatalf("не удалось удалить цитату: %v", err)
 		}
 
 		allAfter, _ := repo.GetAll()
 		if len(allAfter) != 2 {
-			t.Errorf("expected 2 quotes after delete, got %d", len(allAfter))
+			t.Errorf("ожидалось 2 цитаты после удаления, получено %d", len(allAfter))
 		}
 	})
 
@@ -93,7 +92,7 @@ func TestMemoryRepository(t *testing.T) {
 		}
 
 		if !errors.Is(err, ErrNotFound) {
-			t.Errorf("unexpected error: got %v, want %v", err.Error(), ErrNotFound.Error())
+			t.Errorf("неожиданная ошибка: получено %v, ожидалось %v", err.Error(), ErrNotFound.Error())
 		}
 
 		_, err = repo.GetRandom()
@@ -103,7 +102,7 @@ func TestMemoryRepository(t *testing.T) {
 		}
 
 		if !errors.Is(err, ErrNotFound) {
-			t.Errorf("unexpected error: got %v, want %v", err.Error(), ErrNotFound.Error())
+			t.Errorf("неожиданная ошибка: получено %v, ожидалось %v", err.Error(), ErrNotFound.Error())
 		}
 
 	})
