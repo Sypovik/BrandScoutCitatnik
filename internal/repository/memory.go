@@ -2,7 +2,6 @@ package repository
 
 import (
 	"BrandScoutCitatnik/internal/models"
-	"errors"
 	"math/rand"
 	"sync"
 )
@@ -13,7 +12,7 @@ type MemoryQuoteRepository struct {
 	nextID int
 }
 
-func NewMemoryQuoteRepository() *MemoryQuoteRepository {
+func NewQuoteRepositoryMemory() QuoteRepository {
 	return &MemoryQuoteRepository{
 		data:   make(map[int]models.Quote),
 		nextID: 1,
@@ -35,7 +34,6 @@ func (m *MemoryQuoteRepository) GetAll() ([]models.Quote, error) {
 	m.RLock()
 	defer m.RUnlock()
 	var arrQuotes []models.Quote
-	// arrQuotes := make([]models.Quote, 0, len(m.data))
 
 	for _, i := range m.data {
 		arrQuotes = append(arrQuotes, i)
@@ -43,16 +41,12 @@ func (m *MemoryQuoteRepository) GetAll() ([]models.Quote, error) {
 	return arrQuotes, nil
 }
 
-// !!!Не работает потому, что при удалении, в данном подходе, ID может не быть
-// !!!Нужно смотреть какие ID есть и среди них выводить случайный
-// !!!Добавить зерно сида
-
 func (m *MemoryQuoteRepository) GetRandom() (*models.Quote, error) {
 	m.RLock()
 	defer m.RUnlock()
 
 	if len(m.data) == 0 {
-		return nil, errors.New("нет цитат")
+		return nil, ErrNotFound
 	}
 
 	keys := make([]int, 0, len(m.data))
@@ -84,7 +78,7 @@ func (m *MemoryQuoteRepository) Delete(id int) error {
 	defer m.Unlock()
 
 	if _, ok := m.data[id]; !ok {
-		return errors.New("quote not found")
+		return ErrNotFound
 	}
 	delete(m.data, id)
 	return nil
