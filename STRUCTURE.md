@@ -9,6 +9,8 @@
 │   ├── handlers
 │   │   ├── handlers.go
 │   │   └── handlers_test.go
+│   ├── middleware
+│   │   └── middleware.go
 │   ├── models
 │   │   └── quote.go
 │   ├── repository
