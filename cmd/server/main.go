@@ -1,7 +1,15 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+)
 
 func main() {
-	fmt.Println("Hello, World!")
+	port := "8080"
+	if len(os.Args) > 1 {
+		port = os.Args[1]
+	}
+
+	fmt.Println("Аргументы: " + port)
 }
