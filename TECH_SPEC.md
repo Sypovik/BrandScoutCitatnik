@@ -14,12 +14,14 @@
 5. Удаление цитаты по ID (`DELETE /quotes/{id}`)
 ## Проверочные команды (curl):
 ```bash
-curl -X POST http://localhost:8080/quotes \ -H "Content-Type: application/json" \ -d
-'{"author":"Confucius", "quote":"Life is simple, but we insist on making it complicated."}'
+curl -X POST http://localhost:8080/quotes \
+-H "Content-Type: application/json" \
+-d '{"author":"Confucius", "quote":"Life is simple, but we insist on making it complicated."}'
 ```
 
 ```bash
-curl http://localhost:8080/quotes curl http://localhost:8080/quotes/random
+curl http://localhost:8080/quotes 
+curl http://localhost:8080/quotes/random
 ```
 
 ```bash
@@ -27,7 +29,7 @@ curl http://localhost:8080/quotes?author=Confucius
 ```
 
 ```bash
-curl -X DELETE http://localhost:8080/quotes/1`
+curl -X DELETE http://localhost:8080/quotes/1
 ```
 
 ## Технические требования:
