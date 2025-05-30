@@ -22,7 +22,6 @@ func TestRouterQuotesEndpoints(t *testing.T) {
 	t.Run("POST /quotes и GET /quotes", func(t *testing.T) {
 		router := setupRouter()
 
-		// Добавим цитату
 		body := `{"author":"Marcus Aurelius", "quote":"You have power over your mind."}`
 		req := httptest.NewRequest(http.MethodPost, "/quotes", strings.NewReader(body))
 		req.Header.Set("Content-Type", "application/json")
@@ -33,7 +32,6 @@ func TestRouterQuotesEndpoints(t *testing.T) {
 			t.Fatalf("Ожидался статус 201, получен %d", w.Code)
 		}
 
-		// Получим все цитаты
 		req = httptest.NewRequest(http.MethodGet, "/quotes", nil)
 		w = httptest.NewRecorder()
 		router.ServeHTTP(w, req)
@@ -54,7 +52,6 @@ func TestRouterQuotesEndpoints(t *testing.T) {
 	t.Run("GET /quotes?author=Seneca", func(t *testing.T) {
 		router := setupRouter()
 
-		// Добавим несколько цитат
 		quotes := []models.Quote{
 			{Author: "Seneca", Quote: "Time heals all wounds."},
 			{Author: "Seneca", Quote: "Luck is preparation."},
@@ -84,13 +81,11 @@ func TestRouterRandomQuote(t *testing.T) {
 	t.Run("GET /quotes/random", func(t *testing.T) {
 		router := setupRouter()
 
-		// Добавим цитату
 		req := httptest.NewRequest(http.MethodPost, "/quotes", strings.NewReader(`{"author":"Epictetus", "quote":"Endure and abstain."}`))
 		req.Header.Set("Content-Type", "application/json")
 		w := httptest.NewRecorder()
 		router.ServeHTTP(w, req)
 
-		// Получим случайную цитату
 		req = httptest.NewRequest(http.MethodGet, "/quotes/random", nil)
 		w = httptest.NewRecorder()
 		router.ServeHTTP(w, req)
@@ -110,13 +105,11 @@ func TestRouterDeleteQuote(t *testing.T) {
 	t.Run("Успешное удаление и повторная попытка", func(t *testing.T) {
 		router := setupRouter()
 
-		// Добавим цитату
 		req := httptest.NewRequest(http.MethodPost, "/quotes", strings.NewReader(`{"author":"Seneca", "quote":"Delete me"}`))
 		req.Header.Set("Content-Type", "application/json")
 		w := httptest.NewRecorder()
 		router.ServeHTTP(w, req)
 
-		// Удалим
 		req = httptest.NewRequest(http.MethodDelete, "/quotes/1", nil)
 		w = httptest.NewRecorder()
 		router.ServeHTTP(w, req)
@@ -125,7 +118,6 @@ func TestRouterDeleteQuote(t *testing.T) {
 			t.Errorf("Ожидался статус 204, получен %d", w.Code)
 		}
 
-		// Повторное удаление
 		req = httptest.NewRequest(http.MethodDelete, "/quotes/1", nil)
 		w = httptest.NewRecorder()
 		router.ServeHTTP(w, req)

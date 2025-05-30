@@ -179,7 +179,7 @@ func TestDeleteQuote(t *testing.T) {
 	t.Run("Некорректный путь - меньше частей", func(t *testing.T) {
 		h := setupHandler()
 
-		req := httptest.NewRequest("DELETE", "/quotes", nil) // len(strings.Split("/quotes", "/")) == 2
+		req := httptest.NewRequest("DELETE", "/quotes", nil)
 		w := httptest.NewRecorder()
 
 		h.DeleteQuote(w, req)
